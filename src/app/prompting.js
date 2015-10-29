@@ -1,33 +1,31 @@
-function query(name, message, defaultVal, callback) {
+function inputPrompt(name, message, defaultVal, callback) {
   const done = this.async();
 
-  const prompts = [{
+  this.prompt([{
     type: 'input',
     name: name,
     message: message,
-    default: defaultVal, // Default to current folder name
-  }];
-
-  this.prompt(prompts, function runCallback(props) {
+    default: defaultVal,
+  }], function runCallback(props) {
     callback.bind(this)(props);
     done();
   }.bind(this));
 }
 
 function askForName() {
-  query.bind(this)('appname', 'Your project name', this.appname, function assignAppName(props) {
+  inputPrompt.bind(this)('appname', 'Your project name', this.appname, function assignAppName(props) {
     this.appname = props.appname;
   });
 }
 
 function askForGitHubUser() {
-  query.bind(this)('githubUser', 'GitHub user or org', 'rentpath', function assignAppName(props) {
+  inputPrompt.bind(this)('githubUser', 'GitHub user or org', 'rentpath', function assignGitHubUser(props) {
     this.githubUser = props.githubUser;
   });
 }
 
 function askForGitHubRepo() {
-  query.bind(this)('githubRepo', 'GitHub repository name', this.appname, function assignAppName(props) {
+  inputPrompt.bind(this)('githubRepo', 'GitHub repository name', this.appname, function assignGitHubRepo(props) {
     this.githubRepo = props.githubRepo;
     this.githubFullRepo = this.githubUser + this.githubRepo;
   });
